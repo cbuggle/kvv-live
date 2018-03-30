@@ -3,12 +3,24 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^3.3.1",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-react": "^6.24.1",
+    "npm": "^5.7.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-live-clock": "^2.0.3",
+    "react-moment": "^0.7.0",
+    "react-timestamp": "^4.4.0",
+    "react_ujs": "^2.4.4"
   },
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
+    "enzyme": "^3.3.0",
+    "phantomjs-polyfill": "0.0.2",
+    "phantomjs-prebuilt": "^2.1.16",
+    "react-addons-test-utils": "^15.6.2",
+    "react-test-renderer": "^16.2.0",
     "webpack-dev-server": "2.11.2"
   }
 }
