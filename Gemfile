@@ -18,6 +18,11 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'haml-rails'
+gem 'sass-rails'
+
+gem 'bootstrap'
+gem 'font-awesome-rails'
+
 gem 'react-rails'
 
 gem 'kvv-liveapi'

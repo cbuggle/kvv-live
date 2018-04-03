@@ -1,0 +1,78 @@
+@import "bootstrap";
+@import "font-awesome";
+
+.stop-suggestions {
+  display: block;
+}
+
+li.stop-suggestion {
+  list-style: none;
+}
+
+li.stop-suggestion button{
+  @extend .fa;
+  @extend .fa-plus-square;
+  width: 100%;
+  text-align: left;
+  margin: 0px 1px;
+  border: none;
+}
+
+.stop-suggestions-visible-false {
+  display: none;
+}
+
+.timetable-list {
+  @extend .d-flex;
+  @extend .flex-wrap;
+}
+
+.timetable {
+  @extend .card;
+  @extend .text-white;
+  @extend .bg-dark;
+  @extend .mx-1;
+  @extend .my-1;
+  width: 350px;
+}
+
+.timetable-body {
+  @extend .card-body;
+}
+
+.timetable-stopname {
+  @extend .card-header;
+  @extend .text-white;
+}
+
+.timetable-timestamp {
+  @extend .card-subtitle;
+  @extend .text-success;
+}
+
+.timetable-departures {
+  @extend .text-warning;
+}
+
+.timetable-message {
+  @extend .card-body;
+  @extend .text-info;
+}
+
+.departure > div {
+  display: inline-block;
+}
+
+.departure > .departure-direction {
+  display: none;
+}
+
+.departure-route {
+  min-width: 40px;
+  padding-right: 10px;
+  text-align: right;
+}
+
+.departure-time {
+  float: right !important;
+}

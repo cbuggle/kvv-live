@@ -1,4 +1,5 @@
 import React from "react"
+import ReactDOM from "react-dom"
 import Clock from 'react-live-clock'
 import PropTypes from "prop-types"
 import Timetable from "./Timetable"
@@ -8,21 +9,15 @@ class TimetableForm extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      timetableListElement: 'timetable-list',
       stopSuggestions: [],
+      suggestionsVisible: false,
       timetables: []
     }
   }
 
-  componentDidMount() {
-    setInterval(() => { this.updateTimetables()}, 15000);
-  }
-
-  updateTimetables() {
-    console.log("Form updates Timetables")
-    this.state.timetables.map( (timetable) => {
-      console.log("Form updates Timetables " + timetable.state.stopname )
-      timetable.update()
-    })
+  componentDidUpdate() {
+    ReactDOM.render( this.renderTimetables(), document.getElementById( this.state.timetableListElement) )
   }
 
   handleChange = (event) => {
@@ -32,7 +27,7 @@ class TimetableForm extends React.Component {
       const list = fetch('/stops/byname/' + stopName + '.json')
         .then((response) => response.json())
         .then((result) => {
-          this.setState({ stopSuggestions: result})
+          this.setState({ stopSuggestions: result, suggestionsVisible: true})
         }).catch((err) => {
           console.log(err.message);
         });
@@ -48,20 +43,19 @@ class TimetableForm extends React.Component {
       timetables.push( new Timetable( event.target.dataset ) )
     }
 
-    this.setState({timetables: timetables})
+    this.setState({timetables: timetables, suggestionsVisible: false})
   }
 
   renderForm(){
     return (
         <div>
-          <Clock format={'HH:mm:ss'} ticking={true} />
-          <form>
+          <form className="form-inline">
             <input type="text"
                 className="js-timetable-input.stopname-input"
                 onChange={this.handleChange}
-
                 placeholder="Haltestelle" />
           </form>
+          <Clock format={'HH:mm:ss'} ticking={true} />
         </div>
       )
   }
@@ -69,15 +63,13 @@ class TimetableForm extends React.Component {
   renderStopSuggestions() {
     const suggestions = this.state.stopSuggestions.map( (suggestion) =>
         <li key={suggestion.id} id={suggestion.id} className='stop-suggestion'>
-            <button onClick={this.addTimetable} data-stopid={suggestion.id} data-stopname={suggestion.name}> + </button>
-          <div>
+          <button onClick={this.addTimetable} data-stopid={suggestion.id} data-stopname={suggestion.name}>
             {suggestion.name}
-          </div>
+          </button>
         </li>
     )
     return (
-      <div>
-        <h2> Haltestellen </h2>
+      <div className={'stop-suggestions-visible-' + this.state.suggestionsVisible }>
         <ul className="stop-suggestions">{ suggestions }</ul>
       </div>
     )
@@ -86,30 +78,18 @@ class TimetableForm extends React.Component {
   renderTimetables() {
     const timetables = this.state.timetables.map( (timetable) => {
       return(
-        <div key={timetable.state.stopid} >
-
-          <Timetable stopid={timetable.state.stopid} stopname={timetable.state.stopname}/>
-        </div>
+          <Timetable key={timetable.state.stopid} stopid={timetable.state.stopid} stopname={timetable.state.stopname}/>
       )
       }
     )
-    return(
-      <div>
-        { timetables }
-      </div>
-    )
+    return(timetables)
   }
 
   render() {
     return (
       <div>
-      <div>
-      { this.renderForm() }
-      { this.renderStopSuggestions() }
-      </div>
-      <div className="timetable-list">
-        { this.renderTimetables() }
-      </div>
+        { this.renderForm() }
+        { this.renderStopSuggestions() }
       </div>
     );
   }

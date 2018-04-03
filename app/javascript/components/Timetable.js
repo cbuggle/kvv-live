@@ -13,22 +13,23 @@ class Timetable extends React.Component {
       throw "Timetable constructor called without stopname";
     }
     this.state = {
-      refreshInterval: 5000,
       stopid: props.stopid,
       stopname: props.stopname,
       timestamp: Date.now(),
       departures: []
     }
-
   }
 
   componentDidMount() {
+    this.startUpdateTicker( 4000 )
+  }
+
+  startUpdateTicker(){
     this.update()
-    setInterval(() => { this.update()}, 10000);
+    setInterval(() => { this.update()}, 4000);
   }
 
   update = () => {
-    console.log("Timetable update: " + stopid)
     const stopid = this.state.stopid
     const list = fetch('/departures/bystop/' + stopid + '.json')
       .then((response) => response.json())
@@ -44,13 +45,12 @@ class Timetable extends React.Component {
   }
 
   renderRescueInfoText () {
-    var info = ''
+    var infoText = ''
     if(this.state.departures.length == 0){
-      info = <div className="timetable-info">Für diese Haltestelle stellt der KVV derzeit keine Live-Informationen bereit.</div>
+      infoText = <div className="timetable-message">Für diese Haltestelle stellt der KVV derzeit keine Live-Informationen bereit.</div>
     }
-    return(info);
+    return(infoText);
   }
-
 
   render () {
     const departures = this.state.departures.map( (departure, i) => {
@@ -58,16 +58,17 @@ class Timetable extends React.Component {
         <Departure key={i} departure={departure}/>
       )
     })
-
     return (
-      <div className='timetable-item' key={this.state.stopid}>
-        <h2 className='timetable-stop-name'>{ this.state.stopname }</h2>
-        <div className='timetable-timestamp'>
-          Aktualisiert: {<Moment time={this.state.timestamp} format='HH:mm:ss' />}h
-        </div>
-        { this.renderRescueInfoText() }
-        <h3  className='timetable-headline'> Abfahrten </h3>
-        <div className='timetable-departures'>{departures}</div>
+      <div className='timetable' key={this.state.stopid}>
+          <h5 className='timetable-stopname'>
+            { this.state.stopname }
+          </h5>
+          <div className='timetable-body'>
+            { this.renderRescueInfoText() }
+          <div className='timetable-departures'>
+            { departures }
+          </div>
+          </div>
       </div>
     );
   }
