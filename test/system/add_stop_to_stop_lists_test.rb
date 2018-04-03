@@ -49,12 +49,4 @@ class AddStopToStopListsTest < ApplicationSystemTestCase
       end
     end
   end
-
-  private
-
-  def click_to_add_stop stop_name
-    within(:css, ".stop-suggestions") do
-      click_on stop_name
-    end
-  end
 end
