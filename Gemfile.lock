@@ -150,7 +150,8 @@ GEM
       websocket-driver (>= 0.2.0)
     popper_js (1.12.9)
     public_suffix (3.0.2)
-    puma (3.11.3)
+    puma (4.3.8)
+      nio4r (~> 2.0)
     rack (2.0.4)
     rack-proxy (0.6.4)
       rack
@@ -277,7 +278,7 @@ DEPENDENCIES
   minitest-spec-context
   phantomjs
   poltergeist
-  puma (~> 3.7)
+  puma (~> 4.3)
   rails (~> 5.1.5)
   react-rails
   sass-rails
